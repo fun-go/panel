@@ -1,24 +1,20 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { type MenuOption, NIcon, NMenu, NSelect, NConfigProvider,NMessageProvider } from 'naive-ui'
+import { type MenuOption, NIcon, NMenu, NSelect, NConfigProvider } from 'naive-ui'
 import { MinusRound, CloseRound, SettingsRound, TerminalRound, SecurityRound } from "@vicons/material"
-import { Database, Docker, Folder, Server, NetworkWired, TachometerAlt } from "@vicons/fa"
+import { Database, Docker,Folder,Server ,NetworkWired,TachometerAlt} from "@vicons/fa"
 import { h, type Component } from 'vue'
-import FileManager from './components/FileManager.vue'
-import DockerManager from './components/DockerManager.vue'
-
 function renderIcon(icon: Component) {
   return () => h(NIcon, null, { default: () => h(icon) })
 }
 
 const themeOverrides = {
   Menu: {
-    itemHeight: "29px"
+    itemHeight:"29px"
   }
 }
 
 const menuOptions: MenuOption[] = [
-  {
+    {
     key: 'the-godfather-part-iv',
     icon: renderIcon(TachometerAlt)
   },
@@ -26,7 +22,7 @@ const menuOptions: MenuOption[] = [
     key: 'the-godfather-part-ii',
     icon: renderIcon(Docker)
   },
-  {
+    {
     key: 'the-godfather-part-iii',
     icon: renderIcon(NetworkWired)
   },
@@ -38,7 +34,7 @@ const menuOptions: MenuOption[] = [
     key: 'a-wild-sheep-chase',
     icon: renderIcon(TerminalRound)
   },
-  {
+    {
     key: 'the-godfather',
     icon: renderIcon(Database)
   },
@@ -68,20 +64,6 @@ const selectOptions = [
   }
 ]
 
-// 当前激活的菜单项
-const activeMenu = ref('hear-the-wind-sing')
-
-// 计算当前应该显示的组件
-const currentComponent = computed(() => {
-  switch (activeMenu.value) {
-    case 'the-godfather-part-ii':
-      return DockerManager
-    case 'hear-the-wind-sing':
-    default:
-      return FileManager
-  }
-})
-
 // 窗口控制函数（需要在 Electron 环境中实现具体功能）
 function minimizeWindow() {
   console.log('最小化窗口')
@@ -98,35 +80,32 @@ function closeWindow() {
 
 <template>
   <n-config-provider :theme-overrides="themeOverrides">
-    <n-message-provider>
-      <div class="background-container">
-        <!-- 顶部导航条 -->
-        <div class="top-bar">
-          <div class="top-bar-left">
-            <!-- 苹果风格的窗口控制按钮 -->
-            <div class="window-controls">
-              <button class="window-control-btn close-btn" @click="closeWindow"></button>
-              <button class="window-control-btn minimize-btn" @click="minimizeWindow"></button>
-              <button class="window-control-btn disabled-btn" disabled></button>
-            </div>
-          </div>
-          <div class="top-bar-right">
-            <div class="server-selector" style="display:flex;align-items: center;">
-              <n-icon :component="Server" color="#000" size="20" />
-              <p style="color:#000">免费服务器</p>
-            </div>
+    <div class="background-container">
+      <!-- 顶部导航条 -->
+      <div class="top-bar">
+        <div class="top-bar-left">
+          <!-- 苹果风格的窗口控制按钮 -->
+          <div class="window-controls">
+            <button class="window-control-btn close-btn" @click="closeWindow"></button>
+            <button class="window-control-btn minimize-btn" @click="minimizeWindow"></button>
+            <button class="window-control-btn disabled-btn" disabled></button>
           </div>
         </div>
-
-        <div class="glass-menu">
-          <n-menu :collapsed="true" :collapsed-width="45" :options="menuOptions" :collapsed-icon-size="15"
-            :default-value="'hear-the-wind-sing'" v-model:value="activeMenu" />
-        </div>
-        <div class="gradient-overlay">
-          <component :is="currentComponent" />
+        <div class="top-bar-right">
+          <div class="server-selector" style="display:flex;align-items: center;">
+            <n-icon :component="Server" color="#000" size="20"/>
+            <p style="color:#000">免费服务器</p>
+          </div>
         </div>
       </div>
-    </n-message-provider>
+
+      <div class="glass-menu">
+        <n-menu :collapsed="true" :collapsed-width="45" :options="menuOptions" :collapsed-icon-size="15" :default-value="'the-godfather-part-iv'" />
+      </div>
+      <div class="gradient-overlay">
+        <h1 style="color: #000;">111111</h1>
+      </div>
+    </div>
   </n-config-provider>
 </template>
 
@@ -138,8 +117,7 @@ function closeWindow() {
   background-position: center;
   display: flex;
   position: relative;
-  background-color: #ffffff;
-  /* 白色背景 */
+  background-color: #ffffff; /* 白色背景 */
 }
 
 /* 顶部导航条样式 */
@@ -149,18 +127,15 @@ function closeWindow() {
   left: 0;
   right: 0;
   height: 40px;
-  background: #ffffff;
-  /* 白色顶部导航条 */
+  background: #ffffff; /* 白色顶部导航条 */
   display: flex;
   justify-content: space-between;
   align-items: center;
   z-index: 20;
   -webkit-app-region: drag;
   /* 支持窗口拖拽 */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  /* 添加阴影以增强层次感 */
-  border-bottom: 1px solid #e0e0e0;
-  /* 添加底部边框 */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* 添加阴影以增强层次感 */
+  border-bottom: 1px solid #e0e0e0; /* 添加底部边框 */
 }
 
 .top-bar-left {
@@ -173,11 +148,12 @@ function closeWindow() {
 
 .top-bar-right {
   display: flex;
-  align-items: center;
-  padding-right: 10px;
   -webkit-app-region: no-drag;
+  /* 防止按钮影响拖拽 */
+  padding-right: 10px;
 }
 
+/* 苹果风格的窗口控制按钮 */
 .window-controls {
   display: flex;
   gap: 8px;
@@ -190,28 +166,14 @@ function closeWindow() {
   border: none;
   cursor: pointer;
   padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 8px;
-  transition: all 0.2s ease;
-  -webkit-app-region: no-drag;
 }
 
 .close-btn {
   background-color: #ff5f56;
 }
 
-.close-btn:hover {
-  background-color: #ff3b30;
-}
-
 .minimize-btn {
   background-color: #ffbd2e;
-}
-
-.minimize-btn:hover {
-  background-color: #ffb400;
 }
 
 .disabled-btn {
@@ -219,33 +181,81 @@ function closeWindow() {
   cursor: not-allowed;
 }
 
-.server-selector {
-  display: flex;
-  align-items: center;
-  gap: 5px;
+.close-btn:hover:not(:disabled) {
+  background-color: #ff3b30;
+}
+
+.minimize-btn:hover:not(:disabled) {
+  background-color: #ffb400;
 }
 
 .glass-menu {
-  position: absolute;
-  left: 0;
-  top: 40px;
-  bottom: 0;
   width: 45px;
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  background: #ffffff; /* 浅灰色背景 */
   z-index: 10;
-  padding-top: 10px;
+  margin-top: 40px;
+  /* 为顶部导航条留出空间 */
+  border-right: 1px solid #e0e0e0; /* 添加右边框 */
+}
+
+/* 使用深度选择器穿透样式，确保背景色透明 */
+:deep(.n-base-selection .n-base-selection-label) {
+  background-color: transparent !important;
+}
+
+:deep(.n-base-selection-input__content) {
+  color: #000000 !important;
+}
+
+.server-selector:hover {
+  background-color: #EAF5EF;
+  cursor: pointer;
+}
+
+.server-selector:hover p {
+  color: #18A058 !important;
+}
+
+:deep(.server-selector:hover .n-icon) {
+  color: #18A058 !important;
+}
+
+:deep(.server-selector:hover .n-icon svg) {
+  color: #18A058 !important;
+  fill: #18A058 !important;
+}
+
+.server-selector {
+  height: 30px;
+  margin:0 4px;
+  padding:0 4px;
+  border-radius: 5px;
+  gap: 4px;
 }
 
 .gradient-overlay {
-  position: absolute;
-  left: 45px;
-  top: 40px;
-  right: 0;
-  bottom: 0;
-  padding: 20px;
-  overflow: hidden;
+  flex: 1;
+  background: #ffffff; /* 白色背景 */
+  margin: 0;
+  border-radius: 0;
+  margin-top: 40px;
+  /* 为顶部导航条留出空间 */
+  padding: 16px;
+  border-top: 1px solid #e0e0e0; /* 添加顶部边框 */
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+
+.logo.vue:hover {
+  filter: drop-shadow(0 0 2em #42b883aa);
 }
 </style>
