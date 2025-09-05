@@ -3,6 +3,7 @@ import { type MenuOption, NIcon, NMenu, NSelect, NConfigProvider } from 'naive-u
 import { MinusRound, CloseRound, SettingsRound, TerminalRound, SecurityRound } from "@vicons/material"
 import { Database, Docker,Folder,Server ,NetworkWired,TachometerAlt} from "@vicons/fa"
 import { h, type Component } from 'vue'
+import FileManager from './components/FileManager.vue'
 function renderIcon(icon: Component) {
   return () => h(NIcon, null, { default: () => h(icon) })
 }
@@ -103,7 +104,7 @@ function closeWindow() {
         <n-menu :collapsed="true" :collapsed-width="45" :options="menuOptions" :collapsed-icon-size="15" :default-value="'the-godfather-part-iv'" />
       </div>
       <div class="gradient-overlay">
-        <h1 style="color: #000;">111111</h1>
+        <FileManager />
       </div>
     </div>
   </n-config-provider>
